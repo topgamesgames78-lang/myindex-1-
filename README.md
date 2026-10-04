@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111827;
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            width: 320px;
+            padding: 20px;
+            background: #1f2937;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .display {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #111827;
+            color: white;
+            font-size: 35px;
+            text-align: right;
+            outline: none;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            height: 60px;
+            border: none;
+            border-radius: 12px;
+            background: #374151;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        button:hover {
+            background: #4b5563;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .operator {
+            background: #f59e0b;
+        }
+
+        .operator:hover {
+            background: #d97706;
+        }
+
+        .clear {
+            background: #ef4444;
+        }
+
+        .clear:hover {
+            background: #dc2626;
+        }
+
+        .equal {
+            background: #22c55e;
+            grid-column: span 2;
+        }
+
+        .equal:hover {
+            background: #16a34a;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+
+        <input type="text" id="display" class="display" value="0" disabled>
+
+        <div class="buttons">
+
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button onclick="deleteLast()">⌫</button>
+            <button onclick="appendValue('%')">%</button>
+            <button class="operator" onclick="appendValue('/')">÷</button>
+
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button class="operator" onclick="appendValue('*')">×</button>
+
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button class="operator" onclick="appendValue('-')">−</button>
+
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button class="operator" onclick="appendValue('+')">+</button>
+
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
+            <button class="equal" onclick="calculate()">=</button>
+
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById("display");
+
+        function appendValue(value) {
+            if (display.value === "0") {
+                display.value = value;
+            } else {
+                display.value += value;
+            }
+        }
+
+        function clearDisplay() {
+            display.value = "0";
+        }
+
+        function deleteLast() {
+            if (display.value.length === 1) {
+                display.value = "0";
+            } else {
+                display.value = display.value.slice(0, -1);
+            }
+        }
+
+        function calculate() {
+            try {
+                let expression = display.value.replace("%", "/100");
+                display.value = eval(expression);
+            } catch {
+                display.value = "Error";
+            }
+        }
+    </script>
+
+</body>
+</html>
